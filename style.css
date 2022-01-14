@@ -1,0 +1,111 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: lightblue;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+.up {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+fieldset {
+    border: none;
+    margin-top: 19px;
+    height: 30px;
+}
+
+.searching {
+    width: 100px;
+}
+
+.img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 30px;
+}
+
+.title {
+    align-self: flex-start;
+}
+
+.student {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.full {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.join {
+    border-top: 2px solid gray;
+    padding-top: 20px;
+}
+
+.students {
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-gap: 30px;
+    margin-bottom: 20px;
+}
+
+.button {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    color: blue;
+    border-radius: 5px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    align-self: center;
+    width: 90%;
+}
+
+.selected {
+    background-color: blue;
+    color: white;
+}
+
+@media (min-width:720px) {
+    .students {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+    }
+    .buttons {
+        width: 40%;
+    }
+    .searching {
+        width: 200px;
+    }
+}
+
+@media (min-width:1024px) {
+    .students {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+    }
+    .buttons {
+        width: 30%;
+    }
+}
