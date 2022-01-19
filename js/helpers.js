@@ -5,6 +5,8 @@ let setHome = () => {
 
     appendCardsPerPag(1, data);
 
+
+
     attatchButtons(calculateButtons());
 
     window.addEventListener("resize", () => {
@@ -15,6 +17,8 @@ let setHome = () => {
 
 
     let buttons = document.querySelector(".buttons");
+    let first = buttons.firstElementChild;
+    first.classList.add("selected");
 
     buttons.addEventListener('click', (e) => {
         let obj = e.target;
@@ -22,6 +26,7 @@ let setHome = () => {
         if (obj.tagName == "BUTTON") {
             let val = obj.textContent;
             appendCardsPerPag(val, data);
+            resetButtons();
             obj.classList.add("selected");
 
         }
@@ -62,6 +67,16 @@ let setHome = () => {
 
 }
 
+
+let resetButtons = () => {
+
+    let buttons = document.querySelector(".buttons");
+    let child = buttons.firstElementChild;
+    while (child) {
+        child.classList = "button";
+        child = child.nextElementSibling;
+    }
+}
 
 let createCard = (obj) => {
     let artic = document.createElement("article");
@@ -146,7 +161,19 @@ let createOver = () => {
 
             over.appendChild(result);
             body.appendChild(over);
-            arrowRight();
+
+
+            console.log(result.firstElementChild.nextElementSibling.nextElementSibling);
+            if (result.firstElementChild.nextElementSibling.nextElementSibling.textContent === data[0].email) {
+
+                arrowRight();
+            } else if (result.firstElementChild.nextElementSibling.nextElementSibling.textContent === data[data.length - 1].email) {
+                arrowLeft();
+
+            } else {
+                arrowLeft();
+                arrowRight();
+            }
 
 
         }
@@ -155,13 +182,16 @@ let createOver = () => {
     })
 
 
-    // over.addEventListener(("click"), (e) => {
+    over.addEventListener(("click"), (e) => {
 
+        let obj = e.target;
 
+        if (obj.tagName === "SECTION") {
+            over.removeChild(over.firstElementChild);
+            body.removeChild(over);
+        }
 
-    //     over.removeChild(over.firstElementChild);
-    //     body.removeChild(over);
-    // })
+    })
 
 
 
@@ -171,16 +201,16 @@ let createOver = () => {
 
 let arrowRight = () => {
     let right = document.querySelector(".fa-arrow-right");
-    // let student1 = document.querySelector("student1");
+
     let over = document.querySelector(".over");
     let student1 = over.firstElementChild;
 
     right.addEventListener("click", (e) => {
 
         let email = student1.firstElementChild.nextElementSibling.nextElementSibling.textContent;
-        console.log(email);
+        //console.log(email);
         let a = searchNext(email);
-        console.log(a);
+        //console.log(a);
         over.removeChild(over.firstElementChild);
         let card = createCard(searchNext(email));
 
@@ -199,6 +229,47 @@ let arrowRight = () => {
         card.append(right);
 
         over.appendChild(card);
+        arrowRight();
+        arrowLeft();
+
+
+
+    })
+}
+
+
+let arrowLeft = () => {
+    let right = document.querySelector(".fa-arrow-left");
+
+    let over = document.querySelector(".over");
+    let student1 = over.firstElementChild;
+
+    right.addEventListener("click", (e) => {
+
+        let email = student1.firstElementChild.nextElementSibling.nextElementSibling.textContent;
+        //console.log(email);
+        let a = searchPrev(email);
+        //console.log(a);
+        over.removeChild(over.firstElementChild);
+        let card = createCard(searchPrev(email));
+
+
+        card.classList = "student1";
+
+        let left = document.createElement("i");
+        left.classList = "fas";
+        left.classList.add("fa-arrow-left");
+
+        let right = document.createElement("i");
+        right.classList = "fas";
+        right.classList.add("fa-arrow-right");
+
+        card.append(left);
+        card.append(right);
+
+        over.appendChild(card);
+        arrowLeft();
+        arrowRight();
 
 
     })
@@ -303,13 +374,28 @@ let searchNext = (mail) => {
     let arr = data;
 
     for (let i = 0; i < arr.length; i++) {
-        if (arr[i].email.includes(mail)) {
-            console.log(arr[i + 1]);
 
-            break;
-
+        if (arr[i].email.normalize() === mail.normalize()) {
+            return arr[i + 1];
 
         }
-        return arr[i + 1];
+
+    }
+
+}
+
+let searchPrev = (mail) => {
+
+    let arr = data;
+
+    for (let i = 0; i < arr.length; i++) {
+
+        if (arr[i].email.normalize() === mail.normalize()) {
+            return arr[i - 1];
+
+        }
+
+
+
     }
 }
